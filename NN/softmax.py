@@ -42,4 +42,4 @@ for time in range(train_times):
     W -= rate * delta_W
     b -= rate * delta_b
 else:
-    print(Y == np.around(_Y))
+    print(Y.dot(np.linspace(0, 9, 10)) == np.around(_Y).dot(np.linspace(0, 9, 10)))

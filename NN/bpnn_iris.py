@@ -16,16 +16,15 @@ def relu(X, derive=False):
         return (X > 0).astype(float)
     return np.maximum(X, 0)
 
-
-noline = relu
+noline = sigmoid # relu
 
 # Load iris dataset
 iris = datasets.load_iris()
 
 # Inputs.
 X = iris.data
-X -= X.min()
-X /= X.max()
+X -= X.mean(axis=0)
+X /= X.std(axis=0)
 
 # Outputs.
 Y = np.zeros((150, 3))
@@ -61,10 +60,11 @@ for time in range(train_times):
     delta_W1 = np.dot(X.T, delta_A1) + 0.01 / 150 * W1
 
     # Apply deltas
-    rate = 0.001
+    rate = 0.1
     W2 -= rate * delta_W2
     b2 -= rate * delta_b2
     W1 -= rate * delta_W1
     b1 -= rate * delta_b1
 else:
-    print(np.mean((np.around(_Y).dot(np.array(range(3))) == iris.target).astype( int)))
+    predict = np.around(_Y).dot(np.arange(3))
+    print(np.mean((predict == iris.target).astype( int)))
